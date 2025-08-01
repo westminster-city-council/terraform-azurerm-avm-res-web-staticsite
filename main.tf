@@ -9,6 +9,9 @@ resource "azurerm_static_web_app" "this" {
   sku_size                           = var.sku_size
   sku_tier                           = var.sku_tier
   tags                               = var.tags
+  repository_url                     = var.repository_url 
+  repository_branch                  = var.branch
+
 
   dynamic "basic_auth" {
     for_each = var.basic_auth_enabled ? ["basic_auth"] : []
@@ -33,21 +36,4 @@ resource "azurerm_static_web_app" "this" {
       repository_branch
     ]
   }
-}
-
-resource "azapi_update_resource" "this" {
-  count = var.repository_url != null ? 1 : 0
-
-  resource_id = azurerm_static_web_app.this.id
-  type        = "Microsoft.Web/staticSites@2022-03-01"
-  body = {
-    properties = {
-      repositoryUrl = var.repository_url
-      branch        = coalesce(var.branch, "main")
-    }
-  }
-
-  depends_on = [
-    azurerm_static_web_app.this
-  ]
 }
