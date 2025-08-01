@@ -29,11 +29,4 @@ resource "azurerm_static_web_app" "this" {
       identity_ids = identity.value.user_assigned_resource_ids
     }
   }
-
-  lifecycle {
-    ignore_changes = [
-      repository_url,
-      repository_branch
-    ]
-  }
 }
