@@ -11,7 +11,7 @@ resource "azurerm_static_web_app" "this" {
   tags                               = var.tags
   repository_url                     = var.repository_url 
   repository_branch                  = var.branch
-
+  repository_token                   = null
 
   dynamic "basic_auth" {
     for_each = var.basic_auth_enabled ? ["basic_auth"] : []
